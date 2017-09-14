@@ -1,3 +1,6 @@
 .idea
 log
 ban.hosts.ini
+telegram.ini
+.DS_Store
+telegram.ini.unix

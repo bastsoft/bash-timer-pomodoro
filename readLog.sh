@@ -94,5 +94,9 @@ consecutiveCOUNT=$(cat  "$DIR/consecutive.log" | wc -l | tr -d '[:space:]');
 
 consec=$((4-$consecutiveCOUNT));
 
-echo "$CountTrue | запас : $summoney | день: $COUNT | время : $timerInHour | срд : $midleTime | прз : $getMoney через $consec" ;
+msg="$CountTrue | запас : $summoney | день: $COUNT | время : $timerInHour | срд : $midleTime | прз : $getMoney через $consec" ;
+echo $msg;
+eval "$CURDIR/telegram.sh \"$msg\"";
+
+
 
