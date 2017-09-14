@@ -22,3 +22,5 @@ editMessageText(){
  	--data-urlencode "text=$1" \
 	"https://api.telegram.org/bot$TelegramBotId/editMessageText" > /dev/null
 }
+
+notifier "$1" "test2"

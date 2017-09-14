@@ -16,6 +16,6 @@ pressPlayForYouTybe(){
 
 device="$(networksetup -listallhardwareports | grep -E '(Wi-Fi|AirPort)' -A 1 | grep -o "en.")";
 
-[[ "$(networksetup -getairportpower $device)" == *On ]] && say $(curl -s http://api.forismatic.com/api/1.0/\?method\=getQuote\&format\=text);
+# [[ "$(networksetup -getairportpower $device)" == *On ]] && say $(curl -s http://api.forismatic.com/api/1.0/\?method\=getQuote\&format\=text);
 
 pressPlayMacOS;

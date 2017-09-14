@@ -23,35 +23,17 @@ if [[ ! -d "$DIR" && ! -L "$DIR" ]] ; then
     mkdir $DIR
 fi
 
-summoney=0;
-if [ -e "$DIR/countmoney.log" ]; then
-	summoney=$(awk '{ sum += $1 } END { print sum }' "$DIR/countmoney.log");
-fi
 
-sumTime=0;
-if [ -e "$DIR/timeDay.log" ]; then
-	sumTime=$(awk '{ sum += $1 } END { print sum }' "$DIR/timeDay.log");
-fi
-
-midleTime=0;
-timerInHour=$(showTimer $sumTime);
-
-consecutiveCOUNT=1;
-if [ -e "$DIR/consecutive.log" ]; then
-	consecutiveCOUNT=$(cat  "$DIR/consecutive.log" | wc -l | tr -d '[:space:]');
-fi
-
-consec=$((4-$consecutiveCOUNT));
 
 if [ -e $POMOFOROTIMELOG ]; then
 	COUNT=$(cat $POMOFOROTIMELOG | wc -l | tr -d '[:space:]');
-	local LAST1TIME=$(cat $POMOFOROTIMELOG |  tail -n1);
+	LAST1TIME=$(cat $POMOFOROTIMELOG |  tail -n1);
 
 	IFS=: read old_hour old_min old_sec <<< "$LAST1TIME"
 
-	local total_old_minutes=$((10#$old_hour*60*60 + 10#$old_min*60 + 10#$old_sec));
-	local total_minutes=$((10#$hour*60*60 + 10#$min*60 + 10#$sec));
-	local div=$(((total_minutes - total_old_minutes)/60));
+	total_old_minutes=$((10#$old_hour*60*60 + 10#$old_min*60 + 10#$old_sec));
+	total_minutes=$((10#$hour*60*60 + 10#$min*60 + 10#$sec));
+	div=$(((total_minutes - total_old_minutes)/60));
 
 	echo "1" >> "$DIR/consecutive.log";
 
@@ -87,6 +69,19 @@ else
 	echo "0" > "$DIR/timeDay.log"; #сбрасываем время
 fi
 
+summoney=0;
+if [ -e "$DIR/countmoney.log" ]; then
+	summoney=$(awk '{ sum += $1 } END { print sum }' "$DIR/countmoney.log");
+fi
+
+sumTime=0;
+if [ -e "$DIR/timeDay.log" ]; then
+	sumTime=$(awk '{ sum += $1 } END { print sum }' "$DIR/timeDay.log");
+fi
+
+midleTime=0;
+timerInHour=$(showTimer $sumTime);
+
 CountTrue=$(($COUNT+1));
 
 if [ "$COUNT" -gt "0" ];then
@@ -95,6 +90,9 @@ fi
 
 getMoney=$(echo "$midleTime / 1.6" | bc -l | awk '{printf("%d\n",$1 + 0.5)}'); 
 
+consecutiveCOUNT=$(cat  "$DIR/consecutive.log" | wc -l | tr -d '[:space:]');
+
+consec=$((4-$consecutiveCOUNT));
 
 echo "$CountTrue | запас : $summoney | день: $COUNT | время : $timerInHour | срд : $midleTime | прз : $getMoney через $consec" ;
 

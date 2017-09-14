@@ -3,9 +3,9 @@
 countPause=0;
 
 Loop(){
-	local counter=1;
+	local counter=0;
 	local START=$(date +%s);
-	while [ $counter -le $1 ]; do 
+	while [ $(($counter + 1)) -le $1 ]; do 
 		local END=$(date +%s);
 		counter=$((END-START));
 		sleep 1 && inLoop $counter $1;
@@ -21,9 +21,8 @@ Loop(){
   			START=$((START+done));
   		fi
 	done
-	if [ "$done" -eq 0 ]; then
-		echo "end";
-	fi
+
+	printf "\n";
 }
 
 inLoop() {
@@ -93,7 +92,8 @@ isDone(){
 expr $1 \+ 0 &>/dev/null
 if (($? != 2));
 then
+		echo "Press: 1 - finish; 2 - pause; Enter - continue; Ctrl+C - exit";
         Loop $((60 * $1));
 else
-        echo "Not number";
+		printf "%s\n" "set time please";
 fi

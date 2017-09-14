@@ -1,9 +1,11 @@
 #!/bin/bash
 
+CURDIR=$(dirname $0);
+
 hostsSiteBan(){
 	sed '/##--auto-ban--/,$ d' /private/etc/hosts > hosttmp
 	echo '##--auto-ban--' >> hosttmp
-	cat ban.hosts.ini >> hosttmp
+	cat $CURDIR/ban.hosts.ini >> hosttmp
 	sudo cp hosttmp /private/etc/hosts
 	rm hosttmp
 }
